@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  load-balancer:
+    image: nginx:latest
+    volumes:
+      - ./load_balancer.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - load-balancer
+    ports:
+      - "8080:80"
+  server-1:
+    image: nginx:latest
+    networks:
+      - load-balancer
+    volumes:
+      - ./server_1.html:/usr/share/nginx/html/index.html
+  server-2:
+    image: nginx:latest
+    networks:
+      - load-balancer
+    volumes:
+      - ./server_2.html:/usr/share/nginx/html/index.html     
+
+
+
+networks:
+  load-balancer:
